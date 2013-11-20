@@ -23,14 +23,14 @@ def get_bot
 end
 
 $config = {
-# names of you and your stupid friends go here 
+# names of you and your stupid friends go here
 :bot_owners => ["ChanServ","modulus"],
 
 # allow users to register and log in with the bot?
 :enable_bot_auth => false, # for production.
 
 # keep voting data in the db even after they expire?
-:keep_votings => true, 
+:keep_votings => true,
 
 # in seconds
 :voteban_voting_duration => 300,
@@ -39,8 +39,7 @@ $config = {
 
 :voteban_required_votes => lambda { |active_users, total_users|
   # pretty arbitrary as of now
-  if active_users<3 then return 5
-  else return active_users/2; end;
+  active_users < 3 ? 5 : active_users/2
 },
 :sponsor_required_votes => lambda { |active_users, total_users|
   return ((total_users/active_users)/4)+(active_users/2)
@@ -113,7 +112,7 @@ whois = lambda {|v1,v2|
 d.register('whois', &whois)
 d.register('whoami',&whois)
 
-ban = lambda {|v1, v2| 
+ban = lambda {|v1, v2|
   channel=v2.channel
   target=v1.rstrip.split
   if target.count > 1
@@ -140,14 +139,14 @@ bot = Cinch::Bot.new do
     d.execute(command, m)
   end
   on :private, /^%quit$/ do bot.quit end
-  
+
   # TODO: Move all of these to appropriate locations via on_cinch_init
-  
+
   on :leaving do |context, user| Auth::Logout.call context, user; end
   on :nick do |info|
     Auth::Nick.call info.user.last_nick, info.user.nick, info.user
   end
-  
+
   # TODO: Update Resident creation code to set the activity time
   on :channel do |m|
     return unless m.channel
@@ -165,21 +164,21 @@ bot = Cinch::Bot.new do
     end
     end
   end
-  
+
   # TODO: Move this as well
   timer_opts = {:interval => 60}
   voteban_update_timer = Cinch::Timer.new(self, timer_opts) do
     Voting.voteban_update()
   end
   voteban_update_timer.start
-  
+
   # TODO: And this
   timer_opts = {:interval => 300} # spam every 5 mins for production
   polls_update_timer = Cinch::Timer.new(self, timer_opts) do
     Voting.polls_update()
   end
   polls_update_timer.start
-  
+
   reg_cinch_init.each do |block|
     instance_eval(&block)
   end

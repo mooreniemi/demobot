@@ -56,7 +56,7 @@ class Sequel::Model
     super
     columns.each do |column|
       columns.each do |other_column|
-        next if column == other_column 
+        next if column == other_column
         if (column != nil) and (other_column != nil)
           errors.add(:column, "Non-NULL at the same time as #{other_column}")
         end
@@ -73,6 +73,12 @@ class Vote < Sequel::Model(:votes)
   one_to_many :ballots, :class => "Voting::Ballot"
   many_to_one :initiator, :class => "Auth::Resident"
   many_to_one :channel, :class => "Auth::Channel"
+
+  def initialize(params)
+    args.each do |k,v|
+      instance_variable_set("@#{k}", v) unless v.nil?
+    end
+  end
 end
 
 class Ballot < Sequel::Model
@@ -114,19 +120,13 @@ module_function :latest_vote,:latest_vote=
 # initiator: resident object of the initiator
 # target: nick (not name!) of the target
 # channel: name of the channel duh
-def Voting.vote_init(duration, type, initiator, target, channel, state=0)
+# original params list duration, type, initiator, target, channel, state=0
+def Voting.vote_init(params)
   # Check identity
   db_channel = Auth::Channel[:name => channel]
   raise "Channel #{db_channel} unknown." unless db_channel
   raise "#{initiator} is not a citizen of #{channel}" unless Auth.resident_is_citizen?(initiator, db_channel)
-  our_vote = Vote.new
-  our_vote.duration = duration
-  our_vote.type = type
-  our_vote.initiator = initiator
-  our_vote.target = target
-  our_vote.channel = db_channel
-  our_vote.state = state
-  our_vote.save
+  our_vote = Vote.new(params).save
   return our_vote
 end
 
@@ -153,11 +153,7 @@ def Voting.cast_ballot(vote_id, originator, channel, content)
   our_ballot.date = Time.now.utc()
   our_ballot.save
   # This shit is so inconsistent it's making me cringe:
-  if change_existing
-    return :changed_existing
-  else
-    return
-  end
+  change_existing ? return :changed_existing : return
 end
 
 # Counts ballots and returns a hash of the form {"yes" => 10, "no" => 8, ...}
@@ -246,10 +242,9 @@ end
 Voteban = lambda do |line, context|
   begin
     args = line.split(' ')
-    if args.length < 1
-      context.reply("Usage: !voteban <nick>")
-      return
-    end
+
+    return context.reply("Usage: !voteban <nick>") if args.length < 1
+
     raise "User unauthenticated" unless user_name=Auth.authlist[context.user.nick]
     db_vote = Voting.voteban_init(
      user_name, args[0], context.channel.name
