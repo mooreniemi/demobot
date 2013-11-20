@@ -1,0 +1,38 @@
+The current plan is to have one global, per-network DB for network-wide
+identity verification etc. and several per-channel DBs for channel-specific
+stuff.
+I don't think this will still be the case in the final version, but we have to
+start somewhere, don't we?
+The table specifications listed below are not complete or final, either.
+
+DB-global
+TABLE users
+- id
+- name
+- identifier (String supplying all the information needed to verify a user's
+  identity. Might contain different stuff for different network setups. In
+  the case of Freenode, it's probably going to be the nickname one uses to
+  identify with NickServ.)
+- login_name, password (Used when no identifier is supplied OR the user doesn't 
+  want to use it for some reason, i.e. the user interfaces directly with the
+  bot for identity verficiation. Not mandatory, will be empty for most users.
+  TODO: Does this have adverse effects on database efficiency?)
+- default_profile_id
+
+TABLE profiles
+- id
+- user_id
+- name
+- kick_notif
+- ban_notif
+- topic_notif
+- mode_notif
+
+*_notif -> enums (NONE, QUERY, NOTICE, ... something else?)
+
+DB-##channel
+TABLE citizens
+- id
+- user_id (for the global-db table "users")
+- profile_id
+
