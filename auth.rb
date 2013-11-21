@@ -279,43 +279,6 @@ MakeCitizen = lambda do |line, context|
   context.reply("#{parts[0]} is now a citizen of #{parts[1]}!")
 end
 
-MakeAdmin = lambda do |line, context|
-  initiator_identity = Auth.get_identity(context.user.nick)
-  if not initiator_identity
-    return
-  end
-  if not $config[:bot_owners].include?(initiator_identity[:content])
-    return
-  end
-  parts = line.split(" ")
-  if parts.length < 2
-    context.reply "Usage: !make_admin <registered name> <channel>"
-  end
-  channel_match = Channel[:name => parts[1]]
-  if not channel_match
-    context.reply "No such channel."
-    return
-  end
-  resident_match = Resident[:name => parts[0]]
-  if not resident_match
-    context.reply "No such user."
-    return
-  end
-  citizen_match = Citizen[:resident_id => resident_match[:id],
-                        :channel_id => channel_match[:id]]
-  if not citizen_match
-    begin
-      citizen_match = Auth.make_citizen(resident_match, channel_match)
-    rescue => e
-      context.reply "This should NEVER happen the universe broke oh no oh fuck"
-    end
-  end
-  citizen_match[:is_admin] = 1
-  citizen_match.save
-end
-
-end
-
 
 
 unless @reg_init == nil
