@@ -29,17 +29,16 @@ $config = {
 
 } # Hash for config info.
 
-require 'cinch'
-require './auth'
-require './command'
-require './util' # for formatting stuff
+#gem for grabbing whole dirs
+require 'require_all'
 
+# load all ruby files in the directory "lib" and its subdirectories
+require_all 'lib'
+require_all 'models'
+require_all 'services'
+require_all 'db'
+
+require 'cinch'
 require 'sequel'
 
 Sequel.default_timezone=:utc
-
-# Modules/network-specific requires
-require './freenode_auth'
-
-# Actual voting stuff
-require './voting'

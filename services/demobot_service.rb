@@ -9,7 +9,6 @@ class Demobot
       matches.each { |v| m2 += v += ' '}
       context.reply("Sorry, but #{c1} is ambiguous. Matches are: #{m2}")
     }
-
   end
 
   def register(*args, &b)
