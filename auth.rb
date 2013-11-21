@@ -239,48 +239,6 @@ CitizenTest = lambda do |line, context|
   context.reply("You are #{Auth.user_is_citizen?(context.user.nick, context.channel.name) ? '' : 'not '}a citizen of this channel.")
 end
 
-MakeCitizen = lambda do |line, context|
-  initiator_identity = Auth.get_identity(context.user.nick)
-  if not initiator_identity
-    context.reply "Couldn't verify identity."
-    return
-  end
-  initiator_resident = Resident[:name => initiator_identity[:content]]
-  if not initiator_resident
-    context.reply "No such resident."
-    return
-  end
-  parts = line.split(" ")
-  if parts.length < 2
-    context.reply "Usage: !make_citizen <registered name> <channel>"
-    return
-  end
-  channel_match = Channel[:name => parts[1]]
-  if not channel_match
-    context.reply "No such channel."
-    return
-  end
-  if not Auth.resident_is_admin?(initiator_resident, channel_match) and not
-  $config[:bot_owners].include?(initiator_identity[:content])
-    context.reply "Not an owner or admin."
-    return
-  end
-  begin
-  resident_match = Resident[:name => parts[0]]
-  if not resident_match
-    context.reply "No such user."
-    return
-  end
-  Auth.make_citizen(resident_match, channel_match)
-  rescue => e
-    context.reply "Error: #{e}"
-    return
-  end
-  context.reply("#{parts[0]} is now a citizen of #{parts[1]}!")
-end
-
-
-
 unless @reg_init == nil
   @reg_init["register"] = Auth::Register
   @reg_init["login"] = Auth::Login
