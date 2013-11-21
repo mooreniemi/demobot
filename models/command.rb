@@ -31,9 +31,8 @@ class CommandList
     given_line.rstrip!
     parts = given_line.partition(" ")
     exclusive_match = @exclusive_commands[parts[0]]
-    if exclusive_match != nil
-      exclusive_match.yield(parts[2], context)
-      return
+    if exclusive_match.present?
+      return exclusive_match.yield(parts[2], context)
     end
     matches = look_up(parts[0])
     if matches.length == 0

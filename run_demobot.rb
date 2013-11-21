@@ -29,30 +29,6 @@ end
 #contains all the requires too
 require './config/config'
 
-class Demobot
-  attr_accessor :commands
-  #essentially just a wrapper for the regular bot, so plugin?
-
-  def initialize()
-    @commands = CommandList.new() { |matches, line, context|
-      c1 = line.partition(' ')[0]
-      m2 = ''
-      matches.each { |v| m2 += v += ' '}
-      context.reply("Sorry, but #{c1} is ambiguous. Matches are: #{m2}")
-    }
-
-  end
-
-  def register(*args, &b)
-    @commands.register(*args, &b)
-  end
-
-  def execute(*args)
-    @commands.execute(*args)
-  end
-end
-
-
 d = Demobot.new()
 
 @get_bot_lambda = "test"
