@@ -153,7 +153,7 @@ def Voting.cast_ballot(vote_id, originator, channel, content)
   our_ballot.date = Time.now.utc()
   our_ballot.save
   # This shit is so inconsistent it's making me cringe:
-  change_existing ? return :changed_existing : return
+  change_existing == true ? changed_existing.to_sym : ''
 end
 
 # Counts ballots and returns a hash of the form {"yes" => 10, "no" => 8, ...}
@@ -256,15 +256,20 @@ Voteban = lambda do |line, context|
     # TODO: maybe move this to Voting.voteban_init since it's pretty essential
     # TODO: make this non-brainfuck
     timer_opts = {:interval => $config[:voteban_voting_duration], :shots => 1}
+
     vote_timer = Cinch::Timer.new(get_bot(), timer_opts) do
       ballots = Voting.count_ballots(db_vote[:id])
       context.reply("Counted votes: #{ballots}")
+
       active_users = Voting.count_active_users(context.channel.name, 300)
       context.reply("Active users: #{active_users}")
+
       total_users = context.channel.users.length
       votes_required_lambda = $config[:voteban_required_votes]
+
       votes_required = votes_required_lambda.call(active_users, total_users)
       context.reply("Votes required: #{votes_required}")
+
       success = (ballots["yes"] != nil) && (ballots["yes"] >= votes_required)
       context.reply("Vote successful: #{success}#{', commencing ban.'\
       if success}")
@@ -361,16 +366,13 @@ Condemn = lambda do |line, context|
   begin
     raise "No such channel" unless db_channel = Auth::Channel[:name => context.channel.name]
     args = line.split(' ')
-    if args.length < 1
-      context.reply("Usage: !condemn <nick>")
-      return
-    end
+
+    return context.reply("Usage: !condemn <nick>") if args.length < 1
     raise "Who the hell is this?" unless condemned_identity = Auth.get_identity(args[0])
     raise "Condemned user is not registered." unless condemned_resident = Auth::Resident[:name => condemned_identity[:content]]
     condemned_citizen = condemned_resident.citizens_dataset.where(:channel => db_channel).all[0]
-    if not condemned_citizen
-      raise "Condemned user is not a citizen of this channel."
-    end
+    raise "Condemned user is not a citizen of this channel." if not condemned_citizen
+
     user_name = Auth.authlist[context.user.nick]
     db_vote = Voting.condemn_init(
      user_name, args[0], context.channel.name

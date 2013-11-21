@@ -105,115 +105,6 @@ end
 @alist={}
 def self.authlist() @alist end
 
-Register = lambda {|line, context|
-if not $config[:enable_bot_auth]
-  context.reply("Bot authentication is disabled.")
-  return
-end
-# Remove comments to check for channel and network auth, commented for easier testing.
-args = line.split(" ")
-if args.length < 2
-  context.reply("Usage: !register <name> <password>")
-  return
-elsif context.channel != nil
-  context.reply("Can't do this on the channel, you don\'t want to show your password to others.")
-else
-  context.user.whois
-  while !context.user.synced?(:authname)
-    sleep(0.1)
-  end
-  if context.user.authname != nil
-    context.reply "You already have network authentication."
-    return
-  end
-  context.reply("Registering #{args[0]} with password #{args[1]}...")
-  begin
-    our_user = Resident.new
-    our_user.name=args[0]
-    our_user.password=args[1]
-    our_user.identifier='password'
-    our_user.save
-    context.reply "Successfully saved user #{args[0]} with password #{args[1]}"
-  rescue => e
-    context.reply "Error on saving: #{e}"
-    return
-  end
-end
-
-}
-
-Login = lambda {|line, context|
-if not $config[:enable_bot_auth]
-  context.reply("Bot authentication is disabled.")
-  return
-end
-# Same as above regarding commented safeguards
-args = line.split(" ")
-if args.length < 1
-  context.reply("Usage: !register [<name>] <password>")
-  return
-elsif context.channel != nil
-  context.reply("Can't do this on the channel, you don\'t want to show your password to others.")
-else
-  # If only one argument is supplied, it is assumed to be the user's password.
-  # In that event, the user's current nick serves as his login name.
-  if args.length == 1
-    login_name = context.user.nick
-    password = args[0]
-  else
-    login_name = args[0]
-    password = args[1]
-  end
-  
-  if @alist.has_key?(context.user.nick)
-    context.reply("Already logged in as #{@alist[context.user.nick].name}.")
-    return
-  end
-  # Dealing with nick claiming.  
-  context.user.whois
-  while !context.user.synced?(:authname)
-    sleep(0.1)
-  end
-  if context.user.authname != nil
-    begin
-      match = Resident[:name => login_name]
-      if match == nil or match[:password] != password
-        context.reply("Wrong name or password.")
-        return
-      elsif match.identifier != 'password'
-        context.reply('Cannot reclaim network auth users.')
-        return
-      end
-      match.identifier=Auth.fetch_reg_date(context.user.nick)
-      match.password=nil
-      match.save
-      @alist[context.user.nick]=match
-      context.reply "Successfully claimed nick and logged in as #{login_name}."
-    rescue => e
-      context.reply "Error: #{e}"
-      return
-    end
-    return
-  end
-  context.reply("Verifying identity...")
-  begin
-    match = Resident[:name => login_name]
-    if match == nil or match[:password] != password
-      context.reply("Wrong name or password.")
-      return
-    elsif match.identifier!='password'
-      context.reply('Authenticate to the network.')
-      return
-    end
-    @alist[context.user.nick]=match
-    context.reply "Successfully logged in as #{login_name}."
-  rescue => e
-    context.reply "Error: #{e}"
-    return
-  end
-end
-
-}
 
 # Keeping up to date with nicks requires us to hook every time someone joins or says anything.
 def self.noise(user)
@@ -295,7 +186,7 @@ def Auth.update_nickname_cache(nickname, host, db_resident)
   # Just checking for and creating these "auxiliary" DB entries for nick + host
   db_nickname = Nickname.find_or_create(:nickname => nickname)
   db_host = Host.find_or_create(:host => host)
-  
+
   # Here comes the slightly complex part:
   # We want to update existing entries if we're dealing with "the same" user.
   # What counts as same-ness here? If the user has an associated Resident
@@ -323,7 +214,7 @@ def Auth.update_nickname_cache_internal(db_nickname, db_host, db_resident)
       return db_cache_entry
     end
   end
-  
+
   # No match for Resident, so let's try the host, but only if there is no
   # associated Resident (otherwise two people accessing from the same
   # connection but using different accounts count as the same person):
@@ -333,7 +224,7 @@ def Auth.update_nickname_cache_internal(db_nickname, db_host, db_resident)
     # Nothing to update here, just return
     return db_cache_entry
   end
-  
+
   # No matches at all, we have to create a new association then:
   db_cache_entry = NicknameCache.new
   db_cache_entry.nickname = db_nickname

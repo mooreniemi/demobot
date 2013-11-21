@@ -1,3 +1,5 @@
+require 'pry'
+
 @reg_init = {} # This is a hash with methods to register commands which modules can fill on require.
 # Hash must contain 'command' => block, or 'command' => [boolean, block] for exclusive_commands.
 
@@ -8,6 +10,7 @@ reg_cinch_init = []
 @cinch_init_lambda = lambda do |block|
   reg_cinch_init.push(block)
 end
+
 def on_cinch_init(&b)
   @cinch_init_lambda.yield b
 end
@@ -22,52 +25,13 @@ def get_bot
   return @@get_bot_lambda.yield
 end
 
-$config = {
-# names of you and your stupid friends go here
-:bot_owners => ["ChanServ","modulus"],
-
-# allow users to register and log in with the bot?
-:enable_bot_auth => false, # for production.
-
-# keep voting data in the db even after they expire?
-:keep_votings => true,
-
-# in seconds
-:voteban_voting_duration => 300,
-:sponsor_voting_duration => 600,
-:condemn_voting_duration => 600,
-
-:voteban_required_votes => lambda { |active_users, total_users|
-  # pretty arbitrary as of now
-  active_users < 3 ? 5 : active_users/2
-},
-:sponsor_required_votes => lambda { |active_users, total_users|
-  return ((total_users/active_users)/4)+(active_users/2)
-},
-:condemn_required_votes => lambda { |active_users, total_users|
-  return ((total_users/active_users)/4)+(active_users/2)
-},
-
-# in seconds
-:voteban_ban_duration => 604800
-
-} # Hash for config info.
-
-require 'cinch'
-require './auth'
-require './command'
-require './util' # for formatting stuff
-
-require 'sequel'
-Sequel.default_timezone=:utc
-
-# Modules/network-specific requires
-require './freenode_auth'
-
-# Actual voting stuff
-require './voting'
+#configuration can prob just be stored as json hash ultimately
+#contains all the requires too
+require './config/config'
 
 class Demobot
+  attr_accessor :commands
+  #essentially just a wrapper for the regular bot, so plugin?
 
   def initialize()
     @commands = CommandList.new() { |matches, line, context|
@@ -99,16 +63,20 @@ c = lambda {|line, context|
 b = lambda {|line, context|
   context.reply(Auth.authlist)
   }
+
 d.register('test', &c)
 #d.register('text', &b)
 #d.register('command with spaces', &b)
+
 @reg_init.each do |v1, v2|
   d.register(v1,&v2) unless v2.class != Proc
   d.register(v1,v2[0],&v2[1]) if v2.class == Array
 end
+
 whois = lambda {|v1,v2|
   v2.reply("You are identified as #{Auth.fetch_authname(v2.user.nick)}")
 }
+
 d.register('whois', &whois)
 d.register('whoami',&whois)
 
@@ -138,11 +106,13 @@ bot = Cinch::Bot.new do
   on :message, /^\s*%(\S+.*)/ do |m, command|
     d.execute(command, m)
   end
+
   on :private, /^%quit$/ do bot.quit end
 
   # TODO: Move all of these to appropriate locations via on_cinch_init
 
   on :leaving do |context, user| Auth::Logout.call context, user; end
+
   on :nick do |info|
     Auth::Nick.call info.user.last_nick, info.user.nick, info.user
   end
