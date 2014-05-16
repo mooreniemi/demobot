@@ -8,7 +8,7 @@ bot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
     c.channels = ["#demobot"]
-    c.plugins.plugins = [Hello]
+    c.plugins.plugins = [HelloComrade, Admin]
   end
 end
 
