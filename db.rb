@@ -12,3 +12,14 @@ unless DB.table_exists?(:users)
 	  Boolean :admin
 	end
 end
+
+unless DB.table_exists?(:ballots)
+	DB.create_table :ballots do
+	  primary_key :id
+	  String :type
+	  Integer :initiator
+	  Boolean :disciplinary
+	  Integer :yay_votes
+	  Integer :nay_votes
+	end
+end
