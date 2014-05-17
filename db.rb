@@ -28,6 +28,6 @@ unless DB.table_exists?(:ballots)
 	end
 end
 
-# sample migrations
+# sample column adds
 # DB.add_column :ballots, :initiated_at, :datetime, :default => Time.now
 # DB.add_column :ballots, :decided_at, :datetime
