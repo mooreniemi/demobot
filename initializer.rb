@@ -5,6 +5,7 @@ require 'cinch/extensions/authentication'
 require 'sequel'
 
 # classes included
+require_relative 'constants'
 require_relative 'db'
 require_relative 'user'
 require_relative 'ballot'
@@ -13,6 +14,7 @@ require_relative 'ops'
 # plugins
 require_relative 'hello'
 require_relative 'admin'
+require_relative 'cast_ballot'
 
 # bot initialized
 demobot = Cinch::Bot.new do
@@ -20,7 +22,7 @@ demobot = Cinch::Bot.new do
     c.server = "irc.freenode.org"
     c.nick = "demobot"
     c.channels = ["#demobot"]
-    c.plugins.plugins = [HelloComrade, Admin,
+    c.plugins.plugins = [HelloComrade, Admin, CastBallot,
                          Cinch::Plugins::UserLogin]
 
     # defined within the authentication extension

@@ -1,4 +1,6 @@
 module Operators
+
+	# these are the operators on ##marxism
   $ops = %w(emmeka
             fuzzyhorns
             jacobian
@@ -10,4 +12,5 @@ module Operators
   def self.include?(user)
     $ops.include?(user)
   end
+  
 end
