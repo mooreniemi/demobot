@@ -1,6 +1,10 @@
 class Ballot < Sequel::Model
   plugin :validation_helpers
 
+  def before_create
+    errors.add(:ballot_error, ': only one vote can proceed at a time') if unfinished_ballot_exists?
+  end
+
   def disciplinary?
     accused != nil
   end
@@ -15,7 +19,6 @@ class Ballot < Sequel::Model
     # accept only unique logged in voters?
     super
     validates_presence [:initiator]
-    errors.add(:ballot_error, ': only one vote can proceed at a time') if unfinished_ballot_exists?
   end
 
   def unfinished_ballot_exists?

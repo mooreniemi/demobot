@@ -21,10 +21,10 @@ unless DB.table_exists?(:ballots)
 	  String :issue
 	  String :initiator
 	  String :accused
-	  DateTime :initiated_at, :default => Time.now
+	  DateTime :initiated_at, default: Time.now
 	  DateTime :decided_at
-	  Integer :yay_votes
-	  Integer :nay_votes
+	  Integer :yay_votes, default: 0
+	  Integer :nay_votes, default: 0
 	end
 end
 
