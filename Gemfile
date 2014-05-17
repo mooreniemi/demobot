@@ -6,5 +6,6 @@ source 'https://rubygems.org'
  gem 'cinch-authentication' #, :require => 'cinch/extensions/authentication'
 
  gem 'sequel'
- gem 'sqlite3'
+ gem 'sequel_pg'
+ #gem 'sqlite3'
  gem 'pry'
