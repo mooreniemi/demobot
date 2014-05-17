@@ -6,7 +6,10 @@ GEM
       cinch
       commander
       heroku
-    cinch (2.1.0)
+    cinch (2.0.12)
+    cinch-authentication (0.1.0)
+      cinch (~> 2.0.3)
+    coderay (1.1.0)
     commander (4.2.0)
       highline (~> 1.6.11)
     excon (0.33.0)
@@ -24,13 +27,20 @@ GEM
     highline (1.6.21)
     launchy (2.4.2)
       addressable (~> 2.3)
+    method_source (0.8.2)
     mime-types (2.2)
     multi_json (1.10.0)
     netrc (0.7.7)
+    pry (0.9.12.6)
+      coderay (~> 1.0)
+      method_source (~> 0.8)
+      slop (~> 3.4)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     rqrcode (0.4.2)
     rubyzip (1.1.3)
+    sequel (4.10.0)
+    slop (3.5.0)
     sqlite3 (1.3.9)
     term-ansicolor (1.3.0)
       tins (~> 1.0)
@@ -42,4 +52,7 @@ PLATFORMS
 DEPENDENCIES
   bot
   cinch
+  cinch-authentication
+  pry
+  sequel
   sqlite3

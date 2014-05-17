@@ -7,8 +7,7 @@ class Admin
 
   def set_topic(m, topic)
     return unless authenticated? m
-
-    # ...
+    m.channel.topic = "#{topic}"
   end
 
   def get_topic(m)
