@@ -30,4 +30,8 @@ module BallotHelpers
     already_cast_by?(user)
   end
 
+  # TODO
+  # dup_vote should really be serving both ballot and sentence, but as written it cannot
+  # this whole module should probably be renamed to clearly be helpers across both ballot and sentence
+
 end

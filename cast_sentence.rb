@@ -42,6 +42,7 @@ class CastSentence
   def punish(m, id)
   	sentence = get_sentence(id)
   	punishment = sentence.count_votes
+  	
   	sentence.update(punishment: punishment)
   	m.reply "The punishment agreed on by the community was: #{punishment}"
   	send(punishment.to_sym)
@@ -51,7 +52,7 @@ class CastSentence
   def count_up_votes(m, id)
   	sentence = get_sentence(id)
   	punishment = sentence.count_votes
-  	m.reply "The sentence is: #{punishment}."
+  	m.reply "The current sentence by majority is: #{punishment}."
   end
 
 end

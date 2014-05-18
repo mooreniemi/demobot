@@ -22,7 +22,7 @@ class CastBallot
       m.reply "Ballot #{current_ballot[:id]} has #{current_ballot[:yay_votes]} yays and #{current_ballot[:nay_votes]} nays."
       m.reply "The accused for this issue is #{current_ballot[:accused]}." if current_ballot.disciplinary?
     else
-      m.reply "No current ballot is open."
+      m.reply "No current ballot is open. If you want to propose one, use !call_vote [accused nickname] [issue description]."
     end
   end
 
