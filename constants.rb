@@ -28,9 +28,9 @@ module Constants
                 nay
                 )
 
-  PUNISHMENTS = %w(voice1
-                   voice2
-                   voice3
+  PUNISHMENTS = %w(quiet1
+                   quiet2
+                   quiet3
                    ban1
                    ban2
                    ban3

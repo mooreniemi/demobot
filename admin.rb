@@ -42,6 +42,6 @@ class Admin
     return m.reply "None found on #{nick}." if sentences.empty?
 
     m.reply "Sentences on #{nick} found:"
-    sentences.each {|s| m.reply "#{s}"}
+    sentences.each {|s| m.reply "#{Ballot[s.ballot_id].issue}"}
   end
 end

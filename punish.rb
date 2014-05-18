@@ -15,16 +15,16 @@ module Punish
     m.reply "Unimplemented, will be time-limited."
   end
 
-  def voice1(target, m)
+  def quiet1(target, m)
     channel.devoice(target)
     m.reply "#{target.nickname} has been silenced."
   end
 
-  def voice2(target, m)
+  def quiet2(target, m)
     m.reply "Unimplemented, will be time-limited."
   end
 
-  def voice3(target, m)
+  def quiet3(target, m)
     m.reply "Unimplemented, will be time-limited."
   end
 

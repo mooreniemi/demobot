@@ -3,11 +3,11 @@
 
 Demobot's projected features are:
 
-* Provide records of its own actions to users at any time.
+* Provide records of its own actions to users at any time. (done)
 * Allow registration of a nick in a database for channel records. (done)
 * Allow registered nicks to call a vote, if they have sufficient privileges. (done)
 * Allow registered nicks to vote on operator actions. (done)
-* Carry out operator actions according to the will of the people. :)
+* Carry out operator actions according to the will of the people. (perma-ban and perma-devoice done)
 
 ## How does demobot work?
 Demobot works in 3 phases. Accusation, sentencing, and punishment.
