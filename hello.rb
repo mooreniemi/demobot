@@ -6,7 +6,9 @@ class HelloComrade
   match "hello", method: :hello
   # because LennyKitty is silly
   match "homo", method: :homo
+  
   match "yolo", method: :yolo
+  match "yala", method: :yala
 
   def hello(m)
     m.reply "Zdravstvuyte tovarishch, #{m.user.nick}!"
@@ -18,5 +20,9 @@ class HelloComrade
 
   def yolo(m)
     m.reply "You should think about your life choices, #{m.user.nick}."
+  end
+
+  def yala(m)
+    m.reply "I'm here for the people - MIA, interview by Miranda Sawyer of The Observer (2010)"
   end
 end

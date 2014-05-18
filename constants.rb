@@ -1,9 +1,9 @@
 module Constants
 
-  TOXIC_IDEOLOGIES = %w(Fascism
+  TOXIC_IDEOLOGIES = %W(Fascism
                         Imperialism
                         Racism
-                        Male chauvinism
+                        #{"Male chauvinism"}
                         Homophobia
                         Transphobia
                         Ableism)
@@ -17,12 +17,12 @@ module Constants
                 yolo
                 current_vote
                 last_vote
-                call_vote
+                #{"call_vote [nick of the perpetrator] [rule they broke, and how]"}
                 close_vote
                 commands
-                sentencing
-                sentence
-                punish
+                #{"sentencing [number of ballot]"}
+                #{"sentence [number of ballot] [a punishment]"}
+                #{"punish [number of ballot]"}
                 yay
                 nay
                 )
