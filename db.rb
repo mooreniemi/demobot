@@ -13,6 +13,7 @@ unless DB.table_exists?(:users)
     primary_key :id
     String :nickname
     String :password
+    String :mask
     Boolean :admin
   end
 end
@@ -53,4 +54,4 @@ end
 
 # sample column adds
 # DB.add_column :ballots, :initiated_at, :datetime, :default => Time.now
-# DB.add_column :ballots, :decided_at, :datetime
+# DB.add_column :users, :mask, :string

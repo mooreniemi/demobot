@@ -34,4 +34,16 @@ module BallotHelpers
   # dup_vote should really be serving both ballot and sentence, but as written it cannot
   # this whole module should probably be renamed to clearly be helpers across both ballot and sentence
 
+  def users
+    channel.users
+  end
+
+  def channel
+    Channel("#demobot")
+  end
+
+  def get_mask(nick)
+    channel.users.keys.select {|e| e.nick == nick}.first.mask
+  end
+
 end

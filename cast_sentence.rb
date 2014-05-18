@@ -18,6 +18,7 @@ class CastSentence
     ballot = get_ballot(id)
     # TODO need to handle unregistered users more gracefully than this
     accused = User.find(nickname: ballot.accused) || User.create(nickname: ballot.accused)
+    accused.update(mask: get_mask(accused.nickname)) if channel.has_user?(accused.nickname)
 
     case ballot.decision
     when true
@@ -42,10 +43,15 @@ class CastSentence
   def punish(m, id)
   	sentence = get_sentence(id)
   	punishment = sentence.count_votes
-  	
+  	target = User[sentence.user_id]
+  	initiator = m.user.nick
+
   	sentence.update(punishment: punishment)
   	m.reply "The punishment agreed on by the community was: #{punishment}"
-  	send(punishment.to_sym)
+
+  	# TODO
+  	# will prob need to do send with arguments to actually provide mask, etc for actions
+  	send(punishment.to_sym, initiator, target)
   	m.reply "Actual punishment is not yet implemented, but would've happened here."
   end
 

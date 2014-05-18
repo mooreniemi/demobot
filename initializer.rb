@@ -5,6 +5,7 @@ require 'cinch/extensions/authentication'
 require 'sequel'
 
 # classes included
+# need to be handed the bot explicitly or access it from global scope
 require_relative 'constants'
 require_relative 'db'
 require_relative 'user'
@@ -15,6 +16,7 @@ require_relative 'sentence'
 require_relative 'punish'
 
 # plugins
+# have access to channel helper
 require_relative 'hello'
 require_relative 'admin'
 require_relative 'cast_ballot'
@@ -41,7 +43,8 @@ $demobot = Cinch::Bot.new do
 
     # lambdas necessary for login authentication strategy
     c.authentication.registration = lambda { |nickname, password|
-      User.create :nickname => nickname, :password => password, :admin => Operators.include?(nickname)
+      User.create :nickname => nickname, :password => password,
+      :admin => Operators.include?(nickname)
     }
     c.authentication.fetch_user = lambda { |nickname|
       User.first :nickname => nickname
