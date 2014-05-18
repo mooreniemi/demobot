@@ -1,6 +1,7 @@
 module BallotHelpers
 
   def current_ballot
+    return nil if $ballots.last(decided_at: nil).nil?
     Ballot[$ballots.last(decided_at: nil)[:id]]
   end
 

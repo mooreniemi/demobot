@@ -17,7 +17,7 @@ class CastBallot
   match "last_vote", method: :last_vote
 
   def current_vote(m)
-    if current_ballot.present?
+    unless current_ballot == nil
       m.reply "#{m.user.nick}: the current ballot is #{current_ballot[:id]} on the issue '#{current_ballot[:issue]}'."
       m.reply "Ballot #{current_ballot[:id]} has #{current_ballot[:yay_votes]} yays and #{current_ballot[:nay_votes]} nays."
       m.reply "The accused for this issue is #{current_ballot[:accused]}." if current_ballot.disciplinary?
@@ -39,8 +39,12 @@ class CastBallot
   end
 
   def close_vote(m)
-    current_ballot.update(decision: current_ballot.yay_or_nay, decided_at: Time.now) if current_ballot.sufficient_votes?
-    m.reply "#{last_ballot.id} was decided '#{last_ballot.decision}' at #{last_ballot.decided_at}."
+    if current_ballot.sufficient_votes?
+      current_ballot.update(decision: current_ballot.yay_or_nay, decided_at: Time.now)
+      m.reply "#{last_ballot.id} was decided '#{last_ballot.decision}' at #{last_ballot.decided_at}."
+    else
+      m.reply "Insufficient votes to close."
+    end
   end
 
   def cast_yay(m)

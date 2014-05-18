@@ -30,8 +30,4 @@ class Ballot < Sequel::Model
   def channel_users
     [*$demobot.user_list].count
   end
-
-  def present?
-    self != nil
-  end
 end
