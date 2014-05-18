@@ -12,6 +12,6 @@ Demobot's projected features are:
 ## How does demobot work?
 Demobot works in 3 phases. Accusation, sentencing, and punishment.
 
-1. a register user calls !call_vote [username] [issue], which essentially files an accusation that a rule was broken by another user.
+1. a registered user calls !call_vote [username] [issue], which essentially files an accusation that a rule was broken by the accused user.
 2. a quorum of current channel users are required to agree that a rule was broken by the accused.
 3. current channel users vote for what they think the appropriate punishment is for the issue (sentencing). When the quorum is reached, demobot carries out the punishment against the accused. 
