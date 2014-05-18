@@ -55,6 +55,8 @@ class CastSentence
   end
 
   def punishments
+  	# TODO
+  	# should be moved to constants.rb prob
   	%w(voice1 voice2 voice3 ban1 ban2 ban3 warn)
   end
 end

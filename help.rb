@@ -1,9 +1,11 @@
 class Help
 	include Cinch::Plugin
+  include Constants
 
   match "help", method: :help
   match "vote_process", method: :vote_process
   match "feelings", method: :feelings
+  match "commands", method: :commands
 
   def help(m)
     m.reply "#{m.user.nick}: What do you need help with? Reply with !commands, !vote_process, !feelings"
@@ -11,7 +13,7 @@ class Help
 
   def commands(m)
   	# TODO
-  	m.reply "This will be a list of commands."
+  	m.reply "#{COMMANDS.each {|e| e.to_s}}"
   end
 
   def vote_process(m)
