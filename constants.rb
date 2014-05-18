@@ -19,6 +19,7 @@ module Constants
                 last_vote
                 #{"call_vote [nick of the perpetrator] [rule they broke, and how]"}
                 close_vote
+                #{"history [nick of user]"}
                 commands
                 #{"sentencing [number of ballot]"}
                 #{"sentence [number of ballot] [a punishment]"}

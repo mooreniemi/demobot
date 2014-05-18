@@ -6,7 +6,7 @@ class CastBallot
   include BallotHelpers
 
   # this pattern is [nick] [however many strings you want describing the issue]
-  match /call_vote \b(\w+)\b (.+)/, method: :call_vote
+  match /accuse \b(\w+)\b (.+)/, method: :call_vote
 
   match "close_vote", method: :close_vote
 
