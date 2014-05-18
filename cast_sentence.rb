@@ -34,7 +34,7 @@ class CastSentence
   end
 
   def sentence(m, id, punishment_vote)
-  	return m.reply "You already voted on this punishment!" if dup_vote?(m, id, :sentence)
+  	return m.reply "#{m.user.nick}: You already voted on this punishment!" if dup_vote?(m, id, :sentence)
   	Vote.create(user_id: parse_user_from(m).id, sentence_id: id, vote: punishment_vote)
 
   	sentence = get_sentence(id)
@@ -53,7 +53,7 @@ class CastSentence
 	  	sentence.update(punishment: punishment)
 	  	m.reply "The punishment agreed on by the community was: #{punishment}"
 
-	  	send(punishment.to_sym, target) # where punishment is actually happening
+	  	send(punishment.to_sym, target, m) # where punishment is actually happening
 	  else
 	  	m.reply "Have not reached sufficient quorum to sentence."
 	  end

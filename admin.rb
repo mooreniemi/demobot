@@ -5,6 +5,7 @@ class Admin
   match /set_topic (.+)/s, method: :set_topic
   match /get_topic/s, method: :get_topic
   match /notify_ops/, method: :notify_ops
+  match /history (.+)/, method: :history
 
   def set_topic(m, topic)
     return unless authenticated? m
@@ -17,5 +18,10 @@ class Admin
 
   def notify_ops(m)
     # TODO
+  end
+
+  def history(m, nick)
+    m.reply "#{m}: #{nick} has the following records."
+    user = User.where(nickname: nick)
   end
 end

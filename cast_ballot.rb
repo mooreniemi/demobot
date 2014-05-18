@@ -18,9 +18,8 @@ class CastBallot
 
   def current_vote(m)
     unless current_ballot == nil
-      m.reply "#{m.user.nick}: the current ballot is #{current_ballot[:id]} on the issue '#{current_ballot[:issue]}'."
+      m.reply "#{m.user.nick}: the current ballot is #{current_ballot[:id]} on the issue of #{current_ballot[:accused]} accused of '#{current_ballot[:issue]}'."
       m.reply "Ballot #{current_ballot[:id]} has #{current_ballot[:yay_votes]} yays and #{current_ballot[:nay_votes]} nays."
-      m.reply "The accused for this issue is #{current_ballot[:accused]}." if current_ballot.disciplinary?
     else
       m.reply "No current ballot is open. If you want to propose one, use !call_vote [accused nickname] [issue description]."
     end
@@ -32,7 +31,7 @@ class CastBallot
 
   def call_vote(m, accused = nil, issue)
     begin Ballot.create(initiator: m.user.nick, accused: accused, issue: issue)
-      m.reply "#{m.user.nick} proposed a vote on: #{issue}. If you agree this issue deserves an outcome vote, vote !yay now."
+      m.reply "#{m.user.nick} accused #{accused} of: #{issue}. If you agree this issue deserves a sentencing vote, vote !yay now."
     rescue Exception => e
       m.reply "#{m.user.nick}: #{e}."
     end
@@ -48,14 +47,14 @@ class CastBallot
   end
 
   def cast_yay(m)
-    return m.reply "You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
+    return m.reply "#{m.user.nick}: You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
     Vote.create(user_id: parse_user_from(m).id, ballot_id: current_ballot.id, vote: 'yay')
     current_ballot.update(yay_votes: current_ballot.yay_votes + 1)
     m.reply "#{m.user.nick} voted yay."
   end
 
   def cast_nay(m)
-    return m.reply "You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
+    return m.reply "#{m.user.nick}: You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
     Vote.create(user_id: parse_user_from(m).id, ballot_id: current_ballot.id, vote: 'nay')
     current_ballot.update(nay_votes: current_ballot.nay_votes + 1)
     m.reply "#{m.user.nick} voted nay."
