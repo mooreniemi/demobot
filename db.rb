@@ -38,6 +38,7 @@ unless DB.table_exists?(:votes)
     primary_key :id
     Integer :user_id
     Integer :ballot_id
+    Integer :sentence_id
     String :vote
   end
 end

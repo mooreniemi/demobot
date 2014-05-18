@@ -39,7 +39,7 @@ class CastBallot
   end
 
   def close_vote(m)
-    if current_ballot.sufficient_votes?
+    if quorum?(current_ballot.votes)
       current_ballot.update(decision: current_ballot.yay_or_nay, decided_at: Time.now)
       m.reply "#{last_ballot.id} was decided '#{last_ballot.decision}' at #{last_ballot.decided_at}."
     else
@@ -48,14 +48,14 @@ class CastBallot
   end
 
   def cast_yay(m)
-    return m.reply "You already voted on this ballot!" if dup_vote?(m)
+    return m.reply "You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
     Vote.create(user_id: parse_user_from(m).id, ballot_id: current_ballot.id, vote: 'yay')
     current_ballot.update(yay_votes: current_ballot.yay_votes + 1)
     m.reply "#{m.user.nick} voted yay."
   end
 
   def cast_nay(m)
-    return m.reply "You already voted on this ballot!" if dup_vote?(m)
+    return m.reply "You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
     Vote.create(user_id: parse_user_from(m).id, ballot_id: current_ballot.id, vote: 'nay')
     current_ballot.update(nay_votes: current_ballot.nay_votes + 1)
     m.reply "#{m.user.nick} voted nay."

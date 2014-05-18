@@ -1,5 +1,8 @@
+require_relative 'ballot_helpers'
+
 class Ballot < Sequel::Model
   plugin :validation_helpers
+  include BallotHelpers
 
   one_to_many :votes
 
@@ -7,12 +10,12 @@ class Ballot < Sequel::Model
     accused != nil
   end
 
-  def sufficient_votes?
-    (yay_votes + nay_votes) > (channel_users * $minimum_voters).to_i
-  end
-
   def yay_or_nay
     yay_votes > nay_votes ? 'yay' : 'nay'
+  end
+
+  def votes
+    yay_votes + nay_votes
   end
 
   def validate
@@ -27,7 +30,4 @@ class Ballot < Sequel::Model
     errors.add(:ballot_error, ': only one vote can proceed at a time') if $ballots.where(decided_at: nil).count > 0
   end
 
-  def channel_users
-    [*$demobot.user_list].count
-  end
 end

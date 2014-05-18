@@ -2,37 +2,36 @@ module Punish
   include Cinch::Plugin
   include Constants
 
+  PENDING =	m.reply "Unimplemented, will be time-limited."
+  
   def ban1(target)
-  	channel.ban(target)
-  	m.reply "#{target} has been banned."
+    channel.ban(target)
+    m.reply "#{target} has been banned."
   end
 
   def ban2(target)
-  	pending
+    PENDING
   end
 
   def ban3(target)
-  	pending
+    PENDING
   end
 
   def voice1(target)
-  	channel.devoice(target)
-  	m.reply "#{target} has been silenced."
+    channel.devoice(target)
+    m.reply "#{target} has been silenced."
   end
 
   def voice2(target)
-  	pending
+    PENDING
   end
 
   def voice3(target)
-  	pending
+    PENDING
   end
 
   def warn(target)
-  	m.reply "A warning has been logged against #{target}."
+    m.reply "A warning has been logged against #{target}."
   end
 
-  def pending
-  	m.reply "Unimplemented, will be time-limited."
-  end
 end

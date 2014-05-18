@@ -1,5 +1,9 @@
 module BallotHelpers
 
+  def quorum?(votes)
+    votes > (users.count * $minimum_voters).to_i
+  end
+
   def current_ballot
     return nil if $ballots.last(decided_at: nil).nil?
     Ballot[$ballots.last(decided_at: nil)[:id]]
@@ -21,18 +25,19 @@ module BallotHelpers
     User[$users.first(nickname: m.user.nick)[:id]]
   end
 
-  def already_cast_by?(user)
-    $votes.where(user_id: user.id, ballot_id: current_ballot.id).count > 0
+
+  def already_cast_by?(user, id, type)
+    if type == :ballot
+      $votes.where(user_id: user.id, ballot_id: id).count > 0
+    else
+      $votes.where(user_id: user.id, sentence_id: id).count > 0
+    end
   end
 
-  def dup_vote?(m)
+  def dup_vote?(m, id, type)
     user = parse_user_from(m)
-    already_cast_by?(user)
+    already_cast_by?(user, id, type)
   end
-
-  # TODO
-  # dup_vote should really be serving both ballot and sentence, but as written it cannot
-  # this whole module should probably be renamed to clearly be helpers across both ballot and sentence
 
   def users
     channel.users

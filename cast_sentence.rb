@@ -9,13 +9,14 @@ class CastSentence
   match /sentencing (\d+)/, method: :sentencing
   # this pattern is issue id, punishment action
   match /sentence (\d+) \b(\w+)\b/, method: :sentence
-
+  # this pattern is command, issue id
   match /sentence_count (\d+)/, method: :count_up_votes
-
+  # this pattern is command, issue id
   match /punish (\d+)/, method: :punish
 
   def sentencing(m, id)
     ballot = get_ballot(id)
+
     # TODO need to handle unregistered users more gracefully than this
     accused = User.find(nickname: ballot.accused) || User.create(nickname: ballot.accused)
     accused.update(mask: get_mask(accused.nickname)) if channel.has_user?(accused.nickname)
@@ -33,6 +34,9 @@ class CastSentence
   end
 
   def sentence(m, id, punishment_vote)
+  	return m.reply "You already voted on this punishment!" if dup_vote?(m, id, :sentence)
+  	Vote.create(user_id: parse_user_from(m).id, sentence_id: id, vote: punishment_vote)
+
   	sentence = get_sentence(id)
   	return m.reply "Don't be an asshole, #{m.user.nick}." unless PUNISHMENTS.include?(punishment_vote)
 
@@ -42,17 +46,17 @@ class CastSentence
 
   def punish(m, id)
   	sentence = get_sentence(id)
-  	punishment = sentence.count_votes
-  	target = User[sentence.user_id]
-  	initiator = m.user.nick
 
-  	sentence.update(punishment: punishment)
-  	m.reply "The punishment agreed on by the community was: #{punishment}"
+  	if quorum?(sentence.votes)
+	  	punishment, target = sentence.count_votes, User[sentence.user_id]
 
-  	# TODO
-  	# will prob need to do send with arguments to actually provide mask, etc for actions
-  	send(punishment.to_sym, initiator, target)
-  	m.reply "Actual punishment is not yet implemented, but would've happened here."
+	  	sentence.update(punishment: punishment)
+	  	m.reply "The punishment agreed on by the community was: #{punishment}"
+
+	  	send(punishment.to_sym, target) # where punishment is actually happening
+	  else
+	  	m.reply "Have not reached sufficient quorum to sentence."
+	  end
   end
 
   def count_up_votes(m, id)
