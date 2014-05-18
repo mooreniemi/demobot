@@ -5,6 +5,7 @@ DB = Sequel.postgres(:host=>'localhost', :user=>'admin', :password=>'password', 
 
 $users = DB[:users]
 $ballots = DB[:ballots].order(:initiated_at)
+$votes = DB[:votes]
 
 unless DB.table_exists?(:users)
 	DB.create_table :users do
@@ -23,8 +24,18 @@ unless DB.table_exists?(:ballots)
 	  String :accused
 	  DateTime :initiated_at, default: Time.now
 	  DateTime :decided_at
+	  Boolean :decision
 	  Integer :yay_votes, default: 0
 	  Integer :nay_votes, default: 0
+	end
+end
+
+unless DB.table_exists?(:votes)
+	DB.create_table :votes do
+	  primary_key :id
+	  Integer :user_id
+	  Integer :ballot_id
+	  String :vote
 	end
 end
 

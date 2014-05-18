@@ -1,27 +1,37 @@
 class Ballot < Sequel::Model
   plugin :validation_helpers
 
-  def before_create
-    errors.add(:ballot_error, ': only one vote can proceed at a time') if unfinished_ballot_exists?
-  end
+  one_to_many :votes
 
   def disciplinary?
     accused != nil
   end
 
   def sufficient_votes?
-    (yay_votes + nay_votes) > (users * $minimum_voters).to_i
+    (yay_votes + nay_votes) > (channel_users * $minimum_voters).to_i
+  end
+
+  def yay_or_nay
+    yay_votes > nay_votes ? 'yay' : 'nay'
   end
 
   def validate
     # TODO
-    # ballots should be atomic (only one in progress)
     # accept only unique logged in voters?
     super
     validates_presence [:initiator]
+    unfinished_ballot_exists? if new?
   end
 
   def unfinished_ballot_exists?
-    $ballots.where(decided_at: nil).count > 0
+    errors.add(:ballot_error, ': only one vote can proceed at a time') if $ballots.where(decided_at: nil).count > 0
+  end
+
+  def channel_users
+    [*$demobot.user_list].count
+  end
+
+  def present?
+    self != nil
   end
 end

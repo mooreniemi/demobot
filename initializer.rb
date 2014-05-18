@@ -10,6 +10,7 @@ require_relative 'db'
 require_relative 'user'
 require_relative 'ballot'
 require_relative 'ops'
+require_relative 'vote'
 
 # plugins
 require_relative 'hello'
@@ -21,7 +22,7 @@ $channel = "#demobot"
 $minimum_voters = 0.60 # % of channel
 
 # bot initialized
-demobot = Cinch::Bot.new do
+$demobot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
     c.nick = "demobot"
@@ -47,4 +48,4 @@ demobot = Cinch::Bot.new do
   end
 end
 
-demobot.start
+$demobot.start
