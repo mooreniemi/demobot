@@ -1,7 +1,8 @@
 module BallotHelpers
 
   def quorum?(votes)
-    votes > (users.count * $minimum_voters).to_i
+    minimum_voters = 0.15
+    votes > (users.count * minimum_voters).to_i
   end
 
   def current_ballot

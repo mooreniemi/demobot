@@ -1,5 +1,3 @@
-require_relative 'ballot_helpers'
-
 class CastBallot
   include Cinch::Plugin
   include Cinch::Extensions::Authentication
@@ -47,6 +45,7 @@ class CastBallot
   end
 
   def cast_yay(m)
+    return m.reply "Only registered users may vote, #{m.user.nick}. See !registration for more details." if User.where(nickname: m.user.nick).empty?
     return m.reply "#{m.user.nick}: You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
     Vote.create(user_id: parse_user_from(m).id, ballot_id: current_ballot.id, vote: 'yay')
     current_ballot.update(yay_votes: current_ballot.yay_votes + 1)
@@ -54,6 +53,7 @@ class CastBallot
   end
 
   def cast_nay(m)
+    return m.reply "Only registered users may vote, #{m.user.nick}. See !registration for more details." if User.where(nickname: m.user.nick).empty?
     return m.reply "#{m.user.nick}: You already voted on this ballot!" if dup_vote?(m, current_ballot.id, :ballot)
     Vote.create(user_id: parse_user_from(m).id, ballot_id: current_ballot.id, vote: 'nay')
     current_ballot.update(nay_votes: current_ballot.nay_votes + 1)

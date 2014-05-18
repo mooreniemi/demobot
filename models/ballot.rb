@@ -1,5 +1,3 @@
-require_relative 'ballot_helpers'
-
 class Ballot < Sequel::Model
   plugin :validation_helpers
   include BallotHelpers

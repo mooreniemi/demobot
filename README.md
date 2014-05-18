@@ -1,12 +1,12 @@
 # Demobot!
 ## Bringing democracy to IRC moderation :)
 
-Demobot's projected features are:
+Demobot's minimum features currently are:
 
-* Provide records of its own actions to users at any time. (done)
-* Allow registration of a nick in a database for channel records. (done)
-* Allow registered nicks to call a vote, if they have sufficient privileges. (done)
-* Allow registered nicks to vote on operator actions. (done)
+* Provide records of its own actions to users at any time. (!history and !rap_sheet)
+* Allow registration of a nick in a database for channel records. (!register and !login)
+* Allow registered nicks to call a vote, if they have sufficient privileges. (unfinished)
+* Allow registered nicks to vote on operator actions. (unfinished)
 * Carry out operator actions according to the will of the people. (perma-ban and perma-devoice done)
 
 ## How does demobot work?

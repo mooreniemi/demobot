@@ -14,3 +14,6 @@ gem 'bot' # https://github.com/Beakr/bot
 
 # misc
 gem 'pry'
+gem 'rspec'
+gem 'require_all'
+gem 'factory_girl'

@@ -34,6 +34,7 @@ class CastSentence
   end
 
   def sentence(m, id, punishment_vote)
+    return m.reply "Only registered users may vote, #{m.user.nick}. See !registration for more details." if User.where(nickname: m.user.nick).empty?
   	return m.reply "#{m.user.nick}: You already voted on this punishment!" if dup_vote?(m, id, :sentence)
   	Vote.create(user_id: parse_user_from(m).id, sentence_id: id, vote: punishment_vote)
 
