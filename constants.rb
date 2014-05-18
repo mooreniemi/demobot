@@ -17,7 +17,7 @@ module Constants
                 yolo
                 current_vote
                 last_vote
-                #{"call_vote [nick of the perpetrator] [rule they broke, and how]"}
+                #{"accuse [nick of the perpetrator] [rule they broke, and how]"}
                 close_vote
                 #{"history [nick of user]"}
                 commands

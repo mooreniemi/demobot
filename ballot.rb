@@ -11,7 +11,7 @@ class Ballot < Sequel::Model
   end
 
   def yay_or_nay
-    yay_votes > nay_votes ? 'yay' : 'nay'
+    yay_votes > nay_votes
   end
 
   def votes

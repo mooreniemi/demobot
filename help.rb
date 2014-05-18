@@ -6,11 +6,12 @@ class Help
   match "process", method: :vote_process
   match "feelings", method: :feelings
   match "commands", method: :commands
+  match "registration", method: :registration
   match "rules", method: :rules
   match "toxic_ideologies", method: :toxic_ideologies
 
   def help(m)
-    m.reply "#{m.user.nick}: What do you need help with? Reply with !commands, !process, !rules, !toxic_ideologies, !feelings"
+    m.reply "#{m.user.nick}: What do you need help with? Reply with !commands, !process, !rules, !registration, !toxic_ideologies, !feelings"
   end
 
   def commands(m)
@@ -37,5 +38,9 @@ class Help
 
   def feelings(m)
   	m.reply "I love you, #{m.user.nick}. You're my favorite citizen."
+  end
+
+  def registration(m)
+    m.reply "#{m.user.nick}: To register send me a message in the format !register [your nick] [password]. To login, replace !register with !login. :)"
   end
 end
