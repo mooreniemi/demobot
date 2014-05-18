@@ -17,7 +17,8 @@ class CastSentence
 
   def sentencing(m, id)
     ballot = get_ballot(id)
-    accused = User.find(nickname: ballot.accused)
+    # TODO need to handle unregistered users more gracefully than this
+    accused = User.find(nickname: ballot.accused) || User.create(nickname: ballot.accused)
 
     case ballot.decision
     when true
