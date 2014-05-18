@@ -12,6 +12,10 @@ module BallotHelpers
     Ballot[$ballots.where(id: id).last[:id]]
   end
 
+  def get_sentence(id)
+    Sentence[$sentences.where(ballot_id: id).last[:id]]
+  end
+
   def parse_user_from(m)
     User[$users.first(nickname: m.user.nick)[:id]]
   end

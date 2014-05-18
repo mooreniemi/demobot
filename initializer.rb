@@ -18,6 +18,7 @@ require_relative 'hello'
 require_relative 'admin'
 require_relative 'cast_ballot'
 require_relative 'help'
+require_relative 'cast_sentence'
 
 # some necessary globals (should be broken out into config file)
 $channel = "#demobot"
@@ -29,7 +30,7 @@ $demobot = Cinch::Bot.new do
     c.server = "irc.freenode.org"
     c.nick = "demobot"
     c.channels = [$channel]
-    c.plugins.plugins = [HelloComrade, Admin, CastBallot, Help,
+    c.plugins.plugins = [HelloComrade, Admin, CastBallot, CastSentence, Help,
                          Cinch::Plugins::UserLogin]
 
     # defined within the authentication extension

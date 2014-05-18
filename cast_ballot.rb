@@ -8,11 +8,6 @@ class CastBallot
   # this pattern is [nick] [however many strings you want describing the issue]
   match /call_vote \b(\w+)\b (.+)/, method: :call_vote
 
-  # this pattern is issue id
-  match /sentencing (\d+)/, method: :sentencing
-  # this pattern is issue id, punishment action
-  match /sentence (\d+) \b(\w+)\b/
-
   match "close_vote", method: :close_vote
 
   match "yay", method: :cast_yay
@@ -47,19 +42,6 @@ class CastBallot
   def close_vote(m)
     current_ballot.update(decision: current_ballot.yay_or_nay, decided_at: Time.now) if current_ballot.sufficient_votes?
     m.reply "#{last_ballot.id} was decided '#{last_ballot.decision}' at #{last_ballot.decided_at}."
-  end
-
-  def sentencing(m, id)
-    ballot = get_ballot(id)
-
-    case ballot.decision
-    when true
-      m.reply "Sentencing has begun for #{id}."
-    when false
-      m.reply "#{id} can't be sentenced, it was not found to be a rule-breaking instance."
-    else
-      m.reply "#{id} is not yet ready to be sentenced."
-    end
   end
 
   def cast_yay(m)
