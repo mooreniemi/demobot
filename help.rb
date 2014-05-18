@@ -6,13 +6,14 @@ class Help
   match "vote_process", method: :vote_process
   match "feelings", method: :feelings
   match "commands", method: :commands
+  match "rules", method: :rules
+  match "toxic_ideologies", method: :toxic_ideologies
 
   def help(m)
-    m.reply "#{m.user.nick}: What do you need help with? Reply with !commands, !vote_process, !feelings"
+    m.reply "#{m.user.nick}: What do you need help with? Reply with !commands, !vote_process, !rules, !toxic_ideologies, !feelings"
   end
 
   def commands(m)
-  	# TODO
   	m.reply "#{COMMANDS.each {|e| e.to_s}}"
   end
 
@@ -23,6 +24,14 @@ class Help
   	m.reply "If people agree that your issue is a rule-breaking instance, then you can begin a punishment."
   	# TODO
   	m.reply "Punishment is not implemented yet."
+  end
+
+  def rules(m)
+    m.reply "Please check out our rules here: #{RULES_URL.to_s}"
+  end
+
+  def toxic_ideologies(m)
+    m.reply "#{TOXIC_IDEOLOGIES.each {|e| e.to_s}}"
   end
 
   def feelings(m)

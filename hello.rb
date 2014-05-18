@@ -1,6 +1,8 @@
 class HelloComrade
   include Cinch::Plugin
 
+  # this class is mostly for silly methods
+
   match "hello", method: :hello
   # because LennyKitty is silly
   match "homo", method: :homo

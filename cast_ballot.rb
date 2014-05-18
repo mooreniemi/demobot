@@ -27,7 +27,6 @@ class CastBallot
   end
 
   def last_vote(m)
-    # TODO doesnt currently distinguish between last decided vote and last active vote
     m.reply "The last decided vote was #{last_ballot.id} on '#{last_ballot.issue}' at #{last_ballot.decided_at}. Outcome was #{last_ballot.decision}."
   end
 
