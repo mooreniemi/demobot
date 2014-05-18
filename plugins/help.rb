@@ -19,13 +19,13 @@ class Help
   end
 
   def vote_process(m)
-    m.reply "Demobot works through 3 phases: accusation, sentencing, punishment."
-  	m.reply "#{m.user.nick}: To initialize an accusation, use !accuse [accused nick] [rule broken and how by accused (the issue)]."
-  	m.reply "An issue is an instance of rule-breaking according to our rules. Once a vote has begun, all users vote on whether they agree the rule was broken."
-  	m.reply "Once a quorum of the users in the channel have voted, you can close the vote using !close_vote."
-  	m.reply "If people agree that your issue is a rule-breaking instance, then you can begin a punishment."
-  	m.reply "Once a quorum of users in the channel have voted, you can tally the sentence using !punish."
-    m.reply "Demobot will carry out the punishment and record the judgement."
+    m.user.send "Demobot works through 3 phases: accusation, sentencing, punishment."
+  	m.user.send "To initialize an accusation, use !accuse [accused nick] [rule broken and how by accused (the issue)]."
+  	m.user.send "An issue is an instance of rule-breaking according to our rules. Once a vote has begun, all users vote on whether they agree the rule was broken."
+  	m.user.send "Once a quorum of the users in the channel have voted, you can close the vote using !close_vote."
+  	m.user.send "If people agree that your issue is a rule-breaking instance, then you can begin a punishment."
+  	m.user.send "Once a quorum of users in the channel have voted, you can tally the sentence using !punish."
+    m.user.send "Demobot will carry out the punishment and record the judgement."
   end
 
   def rules(m)
@@ -41,6 +41,6 @@ class Help
   end
 
   def registration(m)
-    m.reply "#{m.user.nick}: To register send me a message in the format !register [your nick] [password]. To login, replace !register with !login. :)"
+    m.user.send "To register reply to me in the format !register #{m.user.nick} password. To login, replace !register with !login. :)"
   end
 end
