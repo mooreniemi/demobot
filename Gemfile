@@ -1,5 +1,6 @@
 # A sample Gemfile
 source 'https://rubygems.org'
+gem 'require_all'
 
 # core dependencies for the bot
 gem 'cinch' # https://github.com/cinchrb/cinch
@@ -14,6 +15,5 @@ gem 'bot' # https://github.com/Beakr/bot
 
 # misc
 gem 'pry'
-gem 'rspec'
-gem 'require_all'
 gem 'factory_girl'
+gem 'rspec'
