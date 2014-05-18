@@ -11,15 +11,17 @@ require_relative 'user'
 require_relative 'ballot'
 require_relative 'ops'
 require_relative 'vote'
+require_relative 'sentence'
 
 # plugins
 require_relative 'hello'
 require_relative 'admin'
 require_relative 'cast_ballot'
+require_relative 'help'
 
 # some necessary globals (should be broken out into config file)
 $channel = "#demobot"
-$minimum_voters = 0.60 # % of channel
+$minimum_voters = 0.15 # % of channel
 
 # bot initialized
 $demobot = Cinch::Bot.new do
@@ -27,7 +29,7 @@ $demobot = Cinch::Bot.new do
     c.server = "irc.freenode.org"
     c.nick = "demobot"
     c.channels = [$channel]
-    c.plugins.plugins = [HelloComrade, Admin, CastBallot,
+    c.plugins.plugins = [HelloComrade, Admin, CastBallot, Help,
                          Cinch::Plugins::UserLogin]
 
     # defined within the authentication extension

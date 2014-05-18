@@ -1,11 +1,21 @@
+require_relative 'ballot_helpers'
+
 class CastBallot
   include Cinch::Plugin
   include Cinch::Extensions::Authentication
+  include BallotHelpers
 
+  # this pattern is [nick] [however many strings you want describing the issue]
   match /call_vote \b(\w+)\b (.+)/, method: :call_vote
+
+  # this pattern is issue id
+  match /sentencing (\d+)/, method: :sentencing
+
   match "close_vote", method: :close_vote
+
   match "yay", method: :cast_yay
   match "nay", method: :cast_nay
+
   match "current_vote", method: :current_vote
   match "last_vote", method: :last_vote
 
@@ -20,6 +30,7 @@ class CastBallot
   end
 
   def last_vote(m)
+    # TODO doesnt currently distinguish between last decided vote and last active vote
     m.reply "The last decided vote was #{last_ballot.id} on '#{last_ballot.issue}' at #{last_ballot.decided_at}. Outcome was #{last_ballot.decision}."
   end
 
@@ -33,7 +44,16 @@ class CastBallot
 
   def close_vote(m)
     current_ballot.update(decision: current_ballot.yay_or_nay, decided_at: Time.now) if current_ballot.sufficient_votes?
-    m.reply "#{last_ballot[:id]} was decided '#{last_ballot[:decision]}' at #{last_ballot[:decided_at]}."
+    m.reply "#{last_ballot.id} was decided '#{last_ballot.decision}' at #{last_ballot.decided_at}."
+  end
+
+  def sentencing(m, id)
+    ballot = get_ballot(id)
+    if ballot.decision == true
+      m.reply "Sentencing has begun for #{id}."
+    else
+      m.reply "#{id} is not yet ready to be sentenced."
+    end
   end
 
   def cast_yay(m)
@@ -48,27 +68,6 @@ class CastBallot
     Vote.create(user_id: parse_user_from(m).id, ballot_id: current_ballot.id, vote: 'nay')
     current_ballot.update(nay_votes: current_ballot.nay_votes + 1)
     m.reply "#{m.user.nick} voted nay."
-  end
-
-  def current_ballot
-    Ballot[$ballots.last(decided_at: nil)[:id]]
-  end
-
-  def last_ballot
-    Ballot[$ballots.last[:id]]
-  end
-
-  def parse_user_from(m)
-    User[$users.first(nickname: m.user.nick)[:id]]
-  end
-
-  def already_cast_by?(user)
-    $votes.where(user_id: user.id, ballot_id: current_ballot.id).count > 0
-  end
-
-  def dup_vote?(m)
-    user = parse_user_from(m)
-    already_cast_by?(user)
   end
 
 end
