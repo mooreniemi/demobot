@@ -5,7 +5,7 @@ module BallotHelpers
   end
 
   def last_ballot
-    Ballot[$ballots.order(:decided_at).exclude(decided_at: nil)[:id]]
+    Ballot[$ballots.exclude(decided_at: nil).order(:id).last[:id]]
   end
 
   def get_ballot(id)

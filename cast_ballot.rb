@@ -10,6 +10,8 @@ class CastBallot
 
   # this pattern is issue id
   match /sentencing (\d+)/, method: :sentencing
+  # this pattern is issue id, punishment action
+  match /sentence (\d+) \b(\w+)\b/
 
   match "close_vote", method: :close_vote
 
@@ -49,8 +51,12 @@ class CastBallot
 
   def sentencing(m, id)
     ballot = get_ballot(id)
-    if ballot.decision == true
+
+    case ballot.decision
+    when true
       m.reply "Sentencing has begun for #{id}."
+    when false
+      m.reply "#{id} can't be sentenced, it was not found to be a rule-breaking instance."
     else
       m.reply "#{id} is not yet ready to be sentenced."
     end
