@@ -4,6 +4,7 @@ class CastSentence
   include Cinch::Plugin
   include Cinch::Extensions::Authentication
   include BallotHelpers
+  include Constants
 
   # this pattern is issue id
   match /sentencing (\d+)/, method: :sentencing
@@ -22,7 +23,7 @@ class CastSentence
     when true
     	Sentence.create(user_id: accused.id, ballot_id: ballot.id)
       m.reply "Sentencing has begun for #{id}."
-      m.reply "Possible sentences are: #{punishments.map {|e| e.to_s}}"
+      m.reply "Possible sentences are: #{PUNISHMENTS.map {|e| e.to_s}}"
     when false
       m.reply "#{id} can't be sentenced, it was not found to be a rule-breaking instance."
     else
@@ -32,7 +33,7 @@ class CastSentence
 
   def sentence(m, id, punishment_vote)
   	sentence = get_sentence(id)
-  	return m.reply "Don't be an asshole, #{m.user.nick}." unless punishments.include?(punishment_vote)
+  	return m.reply "Don't be an asshole, #{m.user.nick}." unless PUNISHMENTS.include?(punishment_vote)
 
   	sentence.update(punishment_votes: sentence.punishment_votes + " " + punishment_vote)
     m.reply "#{m.user.nick} sentenced #{punishment_vote}."
@@ -54,9 +55,4 @@ class CastSentence
   	m.reply "The sentence is: #{punishment}."
   end
 
-  def punishments
-  	# TODO
-  	# should be moved to constants.rb prob
-  	%w(voice1 voice2 voice3 ban1 ban2 ban3 warn)
-  end
 end

@@ -11,7 +11,7 @@ module Constants
   RULES_URL = 'http://spiritofcontradiction.eu/IRC'
 
   # kinda like our public api end points here
-  COMMANDS = %w(help
+  COMMANDS = %W(help
                 hello
                 homo
                 yolo
@@ -26,4 +26,12 @@ module Constants
                 yay
                 nay
                 )
+
+  PUNISHMENTS = %w(voice1
+                   voice2
+                   voice3
+                   ban1
+                   ban2
+                   ban3
+                   warn)
 end
