@@ -12,6 +12,7 @@ require_relative 'ballot'
 require_relative 'ops'
 require_relative 'vote'
 require_relative 'sentence'
+require_relative 'punish'
 
 # plugins
 require_relative 'hello'

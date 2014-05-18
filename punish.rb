@@ -1,22 +1,25 @@
-class Punish
-	def ban1
-	end
+module Punish
+  include Cinch::Plugin
+  include Constants
 
-	def ban2
-	end
+  def ban1
+  end
 
-	def ban3
-	end
+  def ban2
+  end
 
-	def voice1
-	end
+  def ban3
+  end
 
-	def voice2
-	end
+  def voice1
+  end
 
-	def voice3
-	end
+  def voice2
+  end
 
-	def warn
-	end
+  def voice3
+  end
+
+  def warn
+  end
 end

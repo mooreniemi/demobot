@@ -1,10 +1,9 @@
-require_relative 'ballot_helpers'
-
 class CastSentence
   include Cinch::Plugin
   include Cinch::Extensions::Authentication
   include BallotHelpers
   include Constants
+  include Punish
 
   # this pattern is issue id
   match /sentencing (\d+)/, method: :sentencing
@@ -45,8 +44,7 @@ class CastSentence
   	punishment = sentence.count_votes
   	sentence.update(punishment: punishment)
   	m.reply "The punishment agreed on by the community was: #{punishment}"
-  	# TODO
-  	# call the punishment method here
+  	send(punishment.to_sym)
   	m.reply "Actual punishment is not yet implemented, but would've happened here."
   end
 
