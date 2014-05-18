@@ -39,7 +39,13 @@ class CastSentence
   end
 
   def punish(m, id)
-
+  	sentence = get_sentence(id)
+  	punishment = sentence.count_votes
+  	sentence.update(punishment: punishment)
+  	m.reply "The punishment agreed on by the community was: #{punishment}"
+  	# TODO
+  	# call the punishment method here
+  	m.reply "Actual punishment is not yet implemented, but would've happened here."
   end
 
   def count_up_votes(m, id)
