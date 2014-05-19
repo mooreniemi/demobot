@@ -11,11 +11,11 @@ class Help
   match "toxic_ideologies", method: :toxic_ideologies
 
   def help(m)
-    m.reply "#{m.user.nick}: What do you need help with? Reply with !commands, !process, !rules, !registration, !toxic_ideologies, !feelings"
+    m.user.send "What do you need help with? Reply with !commands, !process, !rules, !registration, !toxic_ideologies, !feelings"
   end
 
   def commands(m)
-  	m.reply "#{COMMANDS.each {|e| e.to_s}}"
+  	m.user.send "#{COMMANDS.each {|e| e.to_s}}"
   end
 
   def vote_process(m)
@@ -29,11 +29,11 @@ class Help
   end
 
   def rules(m)
-    m.reply "Please check out our rules here: #{RULES_URL.to_s}"
+    m.user.send "Please check out our rules here: #{RULES_URL.to_s}"
   end
 
   def toxic_ideologies(m)
-    m.reply "#{TOXIC_IDEOLOGIES.each {|e| e.to_s}}"
+    m.user.send "#{TOXIC_IDEOLOGIES.each {|e| e.to_s}}"
   end
 
   def feelings(m)

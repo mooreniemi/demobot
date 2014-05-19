@@ -16,7 +16,7 @@ module Punish
   end
 
   def quiet1(target, m)
-    channel.devoice(target)
+    channel.quiet(target)
     m.reply "#{target.nickname} has been silenced."
   end
 

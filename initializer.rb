@@ -2,7 +2,9 @@ require 'pry' # for debugging
 require 'require_all' # for file loading
 
 require 'cinch'
+# https://github.com/britishtea/cinch-authentication/wiki/Configuration
 require 'cinch/extensions/authentication'
+require "cinch/plugins/identify"
 require 'sequel'
 
 require_all 'config'
@@ -15,9 +17,15 @@ $demobot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
     c.nick = "demobot"
-    c.channels = ["#demobot"]
+    c.channels = ["#demobot", "#demobot-test"]
     c.plugins.plugins = [HelloComrade, Admin, CastBallot, CastSentence, Help,
-                         Cinch::Plugins::UserLogin]
+                         Cinch::Plugins::UserLogin, Cinch::Plugins::Identify]
+
+    c.plugins.options[Cinch::Plugins::Identify] = {
+      :username => "demobot",
+      :password => ENV['DEMOBOT_PASSWORD'],
+      :type     => :nickserv,
+    }
 
     # defined within the authentication extension
     c.authentication          = Cinch::Configuration::Authentication.new

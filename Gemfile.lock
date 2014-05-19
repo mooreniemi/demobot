@@ -15,6 +15,8 @@ GEM
     cinch (2.0.12)
     cinch-authentication (0.1.0)
       cinch (~> 2.0.3)
+    cinch-identify (1.6.0)
+      cinch (~> 2.0)
     coderay (1.1.0)
     commander (4.2.0)
       highline (~> 1.6.11)
@@ -80,6 +82,7 @@ DEPENDENCIES
   bot
   cinch
   cinch-authentication
+  cinch-identify
   factory_girl
   pry
   require_all

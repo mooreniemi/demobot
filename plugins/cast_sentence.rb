@@ -50,11 +50,12 @@ class CastSentence
 
   	if quorum?(sentence.votes)
 	  	punishment, target = sentence.count_votes, User[sentence.user_id]
+      target_mask = get_mask(target.nickname)
 
 	  	sentence.update(punishment: punishment)
 	  	m.reply "The punishment agreed on by the community was: #{punishment}"
 
-	  	send(punishment.to_sym, target, m) # where punishment is actually happening
+	  	send(punishment.to_sym, target_mask, m) # where punishment is actually happening
 	  else
 	  	m.reply "Have not reached sufficient quorum to sentence."
 	  end

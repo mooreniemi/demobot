@@ -18,6 +18,7 @@ class Admin
   end
 
   def notify_ops(m)
+    binding.pry
     # TODO
   end
 
