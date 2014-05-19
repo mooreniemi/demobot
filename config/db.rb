@@ -1,4 +1,6 @@
-DB = Sequel.postgres(:host=>'localhost', :user=>'admin', :password=>'password', :database=>'demobot')
+# locally this is
+# DB = Sequel.postgres(:host=>'localhost', :user=>'admin', :password=>'password', :database=>'demobot')
+DB = Sequel.postgres(host: ENV['DB_HOST'], user: ENV['DB_USER'], password: ENV['DB_PASSWORD'], database: ENV['DB_NAME'])
 
 # sample insert
 # users.insert(nickname: 'fuzzyhorns', password: 'pass', admin: true)
