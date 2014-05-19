@@ -4,6 +4,7 @@ module Punish
   
   def ban1(target, m)
     get_channel(m).ban(target)
+    get_channel(m).kick(target)
     m.reply "#{target.nickname} has been banned."
   end
 
