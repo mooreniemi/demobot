@@ -48,9 +48,9 @@ class CastSentence
   def punish(m, id)
   	sentence = get_sentence(id)
 
-  	if quorum?(sentence.votes)
+  	if quorum?(m, sentence.votes)
 	  	punishment, target = sentence.count_votes, User[sentence.user_id]
-      target_mask = get_mask(target.nickname)
+      target_mask = get_mask(m, target.nickname)
 
 	  	sentence.update(punishment: punishment)
 	  	m.reply "The punishment agreed on by the community was: #{punishment}"

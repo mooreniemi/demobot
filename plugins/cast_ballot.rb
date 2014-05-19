@@ -36,7 +36,7 @@ class CastBallot
   end
 
   def close_vote(m)
-    if quorum?(current_ballot.votes)
+    if quorum?(m, current_ballot.votes)
       current_ballot.update(decision: current_ballot.yay_or_nay, decided_at: Time.now)
       m.reply "#{last_ballot.id} was decided '#{last_ballot.decision}' at #{last_ballot.decided_at}."
     else

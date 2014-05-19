@@ -18,8 +18,8 @@ class Admin
   end
 
   def notify_ops(m)
-    binding.pry
     # TODO
+    binding.pry
   end
 
   def history(m, nick)

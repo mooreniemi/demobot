@@ -3,7 +3,7 @@ module Punish
   include Constants
   
   def ban1(target, m)
-    channel.ban(target)
+    channel(m).ban(target)
     m.reply "#{target.nickname} has been banned."
   end
 
@@ -16,8 +16,9 @@ module Punish
   end
 
   def quiet1(target, m)
-    channel.quiet(target)
-    m.reply "#{target.nickname} has been silenced."
+    # channel(m).quiet(target)
+    # m.reply "#{target.nickname} has been silenced."
+    m.reply "Cinch has not implemented quiets at all."
   end
 
   def quiet2(target, m)

@@ -1,8 +1,8 @@
 module BallotHelpers
 
-  def quorum?(votes)
+  def quorum?(m, votes)
     minimum_voters = 0.15
-    votes > (users.count * minimum_voters).to_i
+    votes > (channel(m).users.count * minimum_voters).to_i
   end
 
   def current_ballot
@@ -40,16 +40,12 @@ module BallotHelpers
     already_cast_by?(user, id, type)
   end
 
-  def users
-    channel.users
+  def channel(m)
+    Channel(m.channel.name)
   end
 
-  def channel
-    Channel("#demobot")
-  end
-
-  def get_mask(nick)
-    channel.users.keys.select {|e| e.nick == nick}.first.mask
+  def get_mask(m, nick)
+    channel(m).users.keys.select {|e| e.nick == nick}.first.mask
   end
 
 end
