@@ -1,2 +1,2 @@
 web: echo "foobar" > /dev/null
-bot: bundle exec ruby initializer.rb
+worker: bundle exec ruby initializer.rb
