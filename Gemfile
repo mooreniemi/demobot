@@ -13,6 +13,7 @@ gem 'sequel_pg'
 
 # deploying on heroku
 gem 'bot' # https://github.com/Beakr/bot
+gem 'newrelic_rpm'
 
 # misc
 gem 'pry'

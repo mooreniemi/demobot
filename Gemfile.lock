@@ -45,6 +45,7 @@ GEM
     minitest (5.3.4)
     multi_json (1.10.0)
     netrc (0.7.7)
+    newrelic_rpm (3.7.3.204)
     pg (0.17.1)
     pry (0.9.12.6)
       coderay (~> 1.0)
@@ -84,6 +85,7 @@ DEPENDENCIES
   cinch-authentication
   cinch-identify
   factory_girl
+  newrelic_rpm
   pry
   require_all
   rspec
