@@ -19,7 +19,7 @@ class CastSentence
 
     # TODO need to handle unregistered users more gracefully than this
     accused = User.find(nickname: ballot.accused) || User.create(nickname: ballot.accused)
-    accused.update(mask: get_mask(accused.nickname)) if channel.has_user?(accused.nickname)
+    accused.update(mask: get_mask(m, accused.nickname)) if get_channel(m).has_user?(accused.nickname)
 
     case ballot.decision
     when true
