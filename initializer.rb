@@ -17,7 +17,7 @@ $demobot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
     c.nick = "demobot"
-    c.channels = ["#demobot", "#demobot-test"]
+    c.channels = ["#demobot", "##marxism"]
     c.plugins.plugins = [HelloComrade, Admin, CastBallot, CastSentence, Help,
                          Cinch::Plugins::UserLogin, Cinch::Plugins::Identify]
 
