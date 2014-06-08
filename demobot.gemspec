@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "A cinch-based bot that allows voting on behavior issues."
   s.authors     = ["Alex Moore-Niemi"]
   s.email       = 'moore.niemi@gmail.com'
-  s.files       = ["lib/initializer.rb"]
+  s.files       = ["lib/demobot.rb"]
   s.homepage    =
     'https://github.com/mooreniemi/demobot'
   s.license       = 'GNU'

@@ -4,13 +4,13 @@ require 'require_all' # for file loading
 require 'cinch'
 # https://github.com/britishtea/cinch-authentication/wiki/Configuration
 require 'cinch/extensions/authentication'
-require "cinch/plugins/identify"
+require 'cinch/plugins/identify'
 require 'sequel'
 
-require_all 'config'
-require_all 'helpers'
-require_all 'models'
-require_all 'plugins'
+require_all 'lib/config'
+require_all 'lib/helpers'
+require_all 'lib/models'
+require_all 'lib/plugins'
 
 # bot initialized
 $demobot = Cinch::Bot.new do

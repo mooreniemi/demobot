@@ -21,6 +21,6 @@ All actions are logged in a persisted data store, which is postgres for my imple
 ## How do I run demobot?
 Currently demobot can be deployed from your local machine or very easily on heroku. To run demobot locally, use this command from the root directory of the project:
 
-	bundle exec ruby -w initializer.rb
+	bundle exec ruby -w demobot.rb
 
 To run your own demobot on heroku, make sure you set up the necessary environment variables (to connect to your db, and identify your bot on freenode).
