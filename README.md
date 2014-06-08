@@ -22,6 +22,9 @@ Demobot works in 3 phases. Accusation, sentencing, and punishment.
 
 All actions are logged in a persisted data store, which is postgres for my implementation. Voting on behavior always has edge-cases and potential gaming. So the records exist because channel ops should look to see what was decided, and see if it needs to be overruled.
 
+## How do I install demobot?
+Currently our gem implementation is on hold to work out some cinch dependency conflicts. Your best bet is to clone this repo and bundle install.
+
 ## How do I configure demobot?
 You'll need to tell demobot what channel it will be monitoring, and as a channel op you will need to give it op privileges for it to carry out punishments. Demobot can be told to which users to recognize as channel operators in config/ops.rb. If you're running demobot on heroku, you will need to [specify ENV variables](https://devcenter.heroku.com/articles/config-vars) for your database configuration, which lives in config/db.rb.
 
