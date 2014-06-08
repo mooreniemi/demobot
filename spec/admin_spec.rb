@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require_relative '../plugins/admin.rb'
+require_relative '../lib/plugins/admin.rb'
 
 describe Admin do
   it "can be instantiated given a bot exists" do

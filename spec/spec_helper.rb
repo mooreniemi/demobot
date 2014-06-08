@@ -11,10 +11,10 @@ require 'cinch/extensions/authentication'
 require 'sequel'
 require 'factory_girl'
 
-require_all 'config'
-require_all 'helpers'
-require_all 'models'
-require_all 'plugins'
+require_all 'lib/config'
+require_all 'lib/helpers'
+require_all 'lib/models'
+require_all 'lib/plugins'
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
