@@ -1,5 +1,6 @@
 module Constants
-
+  # channel specific, these are particular to ##marxism
+  # possibly in the future could make a call to a URL and parse those
   TOXIC_IDEOLOGIES = %W(Fascism
                         Imperialism
                         Racism
@@ -8,9 +9,10 @@ module Constants
                         Transphobia
                         Ableism)
 
+  # channel rules
   RULES_URL = 'http://spiritofcontradiction.eu/IRC'
 
-  # kinda like our public api end points here
+  # TODO not self-documenting
   COMMANDS = %W(help
                 hello
                 homo
@@ -25,9 +27,9 @@ module Constants
                 #{"sentence [number of ballot] [a punishment]"}
                 #{"punish [number of ballot]"}
                 yay
-                nay
-                )
+                nay)
 
+  # 2 & 3 remain unimplemented
   PUNISHMENTS = %w(quiet1
                    quiet2
                    quiet3

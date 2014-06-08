@@ -1,6 +1,6 @@
 module Operators
-
 	# these are the operators on ##marxism
+  # replace these with your channel's ops
   $ops = %w(emmeka
             fuzzyhorns
             jacobian
