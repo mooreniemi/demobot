@@ -1,8 +1,7 @@
 module BallotHelpers
 
   def quorum?(m, votes)
-    minimum_voters = 0.15
-    votes > (get_channel(m).users.count * minimum_voters).to_i
+    votes > minimum_voters.to_i
   end
 
   def current_ballot
@@ -26,14 +25,8 @@ module BallotHelpers
     User[$users.first(nickname: m.user.nick)[:id]]
   end
 
-  def already_cast_by?(user, id, type)
-    if type == :ballot
-      $votes.where(user_id: user.id, ballot_id: id).count > 0
-    else
-      $votes.where(user_id: user.id, sentence_id: id).count > 0
-    end
-  end
 
+  private
   def dup_vote?(m, id, type)
     user = parse_user_from(m)
     already_cast_by?(user, id, type)
@@ -45,6 +38,24 @@ module BallotHelpers
 
   def get_mask(m, nick)
     get_channel(m).users.keys.select {|e| e.nick == nick}.first.mask
+  end
+
+  def already_cast_by?(user, id, type)
+    if type == :ballot
+      $votes.where(user_id: user.id, ballot_id: id).count > 0
+    else
+      $votes.where(user_id: user.id, sentence_id: id).count > 0
+    end
+  end
+
+  def old_enough_users
+    # TODO
+    # use check citizen plugin here
+  end
+
+  def minimum_voters
+    # (old_enough_users * minimum_voters)
+    3
   end
 
 end

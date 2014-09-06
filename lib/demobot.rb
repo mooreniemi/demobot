@@ -18,10 +18,11 @@ $demobot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
     c.nick = "demobot"
-    c.channels = ["##marxism"]
+    c.channels = [ENV['CHANNEL']]
     # default is ! which tends to interfere with other bots
     c.plugins.prefix = /^~/
     c.plugins.plugins = [HelloComrade, Admin, CastBallot, CastSentence, Help,
+                         CheckCitizenship,
                          Cinch::Plugins::UserLogin, Cinch::Plugins::Identify]
 
     c.plugins.options[Cinch::Plugins::Identify] = {
