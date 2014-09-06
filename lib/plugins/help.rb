@@ -11,7 +11,7 @@ class Help
   match "toxic_ideologies", method: :toxic_ideologies
 
   def help(m)
-    m.user.send "What do you need help with? Reply with !commands, !process, !rules, !registration, !toxic_ideologies, !feelings"
+    m.user.send "What do you need help with? Reply with ~commands, ~process, ~rules, ~registration, ~toxic_ideologies, ~feelings"
   end
 
   def commands(m)
