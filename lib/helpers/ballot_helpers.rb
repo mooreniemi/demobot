@@ -26,7 +26,6 @@ module BallotHelpers
     User[$users.first(nickname: m.user.nick)[:id]]
   end
 
-
   def already_cast_by?(user, id, type)
     if type == :ballot
       $votes.where(user_id: user.id, ballot_id: id).count > 0

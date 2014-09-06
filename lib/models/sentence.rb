@@ -16,9 +16,22 @@ class Sentence < Sequel::Model
     punishment_votes.split(' ').count
   end
 
+  def over
+    remove_sentence
+    self.ended_at = Time.now
+  end
+
+  def release_date_now?
+    self.decided_at + eval(SENTENCE_LENGTH[sentence]) < Time.now
+  end
+
   def validate
     super
     validates_presence [:user_id]
+  end
+
+  def remove_sentence
+    # TODO
   end
 
 end

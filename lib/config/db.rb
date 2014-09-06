@@ -10,6 +10,9 @@ $ballots = DB[:ballots].order(:initiated_at)
 $votes = DB[:votes]
 $sentences = DB[:sentences].order(:ballot_id)
 
+# for our rake task, aka the parol board
+$unended_sentences = $sentences.where(ended_at: nil)
+
 unless DB.table_exists?(:users)
   DB.create_table :users do
     primary_key :id
@@ -48,6 +51,8 @@ end
 unless DB.table_exists?(:sentences)
   DB.create_table :sentences do
     primary_key :id
+    DateTime :decided_at
+    DateTime :ended_at
     Integer :user_id
     Integer :ballot_id
     String :punishment_votes, default: ''

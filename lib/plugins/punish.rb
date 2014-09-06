@@ -34,4 +34,12 @@ module Punish
     m.reply "A warning has been logged against #{target.nickname}."
   end
 
+  def unban(target, m)
+    get_channel(m).unban(target)
+  end
+
+  def unquiet(target, m)
+    get_channel(m).unquiet(target)
+  end
+
 end

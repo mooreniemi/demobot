@@ -28,8 +28,8 @@ module Constants
                 #{"punish [number of ballot]"}
                 yay
                 nay)
-
-  # 2 & 3 remain unimplemented
+  
+  # command options, TODO redundant and can be replaced with keys of below hash
   PUNISHMENTS = %w(quiet1
                    quiet2
                    quiet3
@@ -37,4 +37,14 @@ module Constants
                    ban2
                    ban3
                    warn)
+
+  SENTENCE_LENGTHS = {
+    # quiet1: permanent
+    quiet2: "1.week",
+    quiet3: "1.day",
+    # ban1: permanent
+    ban2: "1.week",
+    ban3: "1.day",
+    # warn: no time
+  }
 end

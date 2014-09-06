@@ -52,10 +52,14 @@ class CastSentence
 	  	punishment, target = sentence.count_votes, User[sentence.user_id]
       target_mask = get_mask(m, target.nickname)
 
-	  	sentence.update(punishment: punishment)
+	  	sentence.update(punishment: punishment, decided_at: Time.now)
+      # TODO kinda sloppy, but renders permanent punishments because anything with an ended_at date
+      # is never open to parol by the rake task
+      sentence.update(ended_at: Time.now + 100.years) if %w(ban1 quiet1).include? punishment
+
 	  	m.reply "The punishment agreed on by the community was: #{punishment}"
 
-	  	send(punishment.to_sym, target_mask, m) # where punishment is actually happening
+	  	send(punishment.to_sym, target_mask, m) # where punishment on irc is actually happening
 	  else
 	  	m.reply "Have not reached sufficient quorum to sentence."
 	  end

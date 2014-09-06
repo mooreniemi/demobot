@@ -6,6 +6,7 @@ require 'cinch'
 require 'cinch/extensions/authentication'
 require 'cinch/plugins/identify'
 require 'sequel'
+require 'active_support/core_ext'
 
 require_all 'lib/config'
 require_all 'lib/helpers'
@@ -17,7 +18,9 @@ $demobot = Cinch::Bot.new do
   configure do |c|
     c.server = "irc.freenode.org"
     c.nick = "demobot"
-    c.channels = ["#demobot", "##marxism"]
+    c.channels = ["##marxism"]
+    # default is ! which tends to interfere with other bots
+    c.plugins.prefix = /^~/
     c.plugins.plugins = [HelloComrade, Admin, CastBallot, CastSentence, Help,
                          Cinch::Plugins::UserLogin, Cinch::Plugins::Identify]
 
