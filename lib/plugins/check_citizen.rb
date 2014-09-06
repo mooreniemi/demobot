@@ -1,9 +1,12 @@
 class CheckCitizenship
-
+  include Cinch::Plugin
+  include Cinch::Extensions::Authentication
+  include BallotHelpers
+  
   match "citizens", method: :citizens
 
   listen_to :private, method: :capture
-  
+
   def citizens(m)
     users = Channel(m.channel.name).users.keys
     citizens = users.inject([]) {|a,u| a << whois(u.nick) }
