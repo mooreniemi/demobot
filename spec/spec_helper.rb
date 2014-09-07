@@ -21,6 +21,8 @@ RSpec.configure do |config|
   config.run_all_when_everything_filtered = true
   config.filter_run :focus
 
+  I18n.enforce_available_locales = false
+
   config.include FactoryGirl::Syntax::Methods
 
   config.before(:suite) do

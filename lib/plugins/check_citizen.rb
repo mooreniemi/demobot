@@ -10,7 +10,8 @@ class CheckCitizenship
   def citizens(m)
     users = Channel(m.channel.name).users.keys
     citizens = users.inject([]) {|a,u| a << whois(u.nick) }
-    m.reply "Total of #{citizens.count} citizens"
+    # disregard demobot as a citizen
+    m.reply "Total of #{citizens.count - 1} citizens"
   end
 
   def capture_nickserv(m)
@@ -23,8 +24,13 @@ class CheckCitizenship
 
   def age_in_weeks(m)
     in_parens = get_parens_output(m.params[1])
+
+    years = get_years(in_parens)
+    years = years.empty? ? 0 : years[1..-1].to_i
     weeks = get_weeks(in_parens)
-    weeks.empty? ? 0 : weeks.to_i
+    weeks = weeks.empty? ? 0 : weeks.to_i
+
+    (years * 52) + weeks
   end
 
   def get_parens_output(response)
