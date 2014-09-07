@@ -14,10 +14,19 @@ describe CheckCitizenship do
     expect(citizenship).to be_a CheckCitizenship
   end
 
-  it "can parse weeks from nickserv response" do
-    expect_any_instance_of(Cinch::Helpers).to receive_message_chain(:Channel, :users, :keys).and_return(user_list)
-    expect(user_list).to receive(:inject).and_return(users)
-    expect(m).to receive(:reply).with("Total of 3 citizens")
-    citizenship.citizens(m)
+  context "#citizens" do
+    it "can properly report on users in channel" do
+      expect_any_instance_of(Cinch::Helpers).to receive_message_chain(:Channel, :users, :keys).and_return(user_list)
+      expect(user_list).to receive(:inject).and_return(users)
+      expect(m).to receive(:reply).with("Total of 3 citizens")
+      citizenship.citizens(m)
+    end
+  end
+
+  context "#capture_nickserv" do
+    it "ignores anything not from nickserv" do
+      expect(citizenship).to receive(:nickserv?).and_return(false)
+      expect(citizenship.capture_nickserv(m)).to eq(nil)
+    end
   end
 end
