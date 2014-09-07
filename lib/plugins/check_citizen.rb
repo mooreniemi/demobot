@@ -15,10 +15,21 @@ class CheckCitizenship
 
   def capture(m)
     in_parens = /\((.*?)\)/.match(m.params[1])
-    Channel('#demobot').send "#{in_parens}"
+    has_weeks = has_weeks?(in_parens) ? in_parens.to_s.split(",").reverse[2] : []
+    weeks = has_weeks.empty? ? 0 : has_weeks.to_i
+    old = meets_minimum_weeks?(weeks) ? weeks : "x"
+    Channel('#demobot').send "#{old}"
   end
 
   private
+
+  def has_weeks?(in_parens)
+    (in_parens.to_s =~ /weeks/i) != nil
+  end
+
+  def meets_minimum_weeks?(weeks)
+    weeks >= 4
+  end
 
   def whois(nick)
     Target("nickserv").send "info #{nick}"
