@@ -85,7 +85,7 @@ DEPENDENCIES
   cinch
   cinch-authentication
   cinch-identify
-  factory_girl
+  factory_girl (~> 4.0)
   newrelic_rpm
   pry
   rake
