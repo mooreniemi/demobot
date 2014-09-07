@@ -25,6 +25,9 @@ module BallotHelpers
     User[$users.first(nickname: m.user.nick)[:id]]
   end
 
+  def get_channel(m)
+    Channel(m.channel.name)
+  end
 
   private
   def dup_vote?(m, id, type)
@@ -32,9 +35,6 @@ module BallotHelpers
     already_cast_by?(user, id, type)
   end
 
-  def get_channel(m)
-    Channel(m.channel.name)
-  end
 
   def get_mask(m, nick)
     get_channel(m).users.keys.select {|e| e.nick == nick}.first.mask

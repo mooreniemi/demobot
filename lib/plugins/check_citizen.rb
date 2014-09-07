@@ -2,7 +2,7 @@ class CheckCitizenship
   include Cinch::Plugin
   include Cinch::Extensions::Authentication
   include BallotHelpers
-  
+
   match "citizens", method: :citizens
 
   listen_to :private, method: :capture
@@ -14,7 +14,8 @@ class CheckCitizenship
   end
 
   def capture(m)
-    puts m
+    in_parens = /\((.*?)\)/.match(m.params[1])
+    Channel('#demobot').send "#{in_parens}"
   end
 
   private
