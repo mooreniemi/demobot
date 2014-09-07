@@ -15,15 +15,17 @@ class CheckCitizenship
 
   def capture_nickserv(m)
     return unless nickserv?(m)
-
-    in_parens = get_parens_output(m.params[1])
-    weeks = get_weeks(in_parens)
-    age_in_weeks = weeks.empty? ? 0 : weeks.to_i
-
-    Channel('#demobot').send "#{age_in_weeks}" if meets_minimum_weeks?(age_in_weeks)
+    citizenship = age_in_weeks(m)
+    Channel('#demobot').send "#{citizenship}" if meets_minimum_weeks?(citizenship)
   end
 
   private
+
+  def age_in_weeks(m)
+    in_parens = get_parens_output(m.params[1])
+    weeks = get_weeks(in_parens)
+    weeks.empty? ? 0 : weeks.to_i
+  end
 
   def get_parens_output(response)
     /\((.*?)\)/.match(response)

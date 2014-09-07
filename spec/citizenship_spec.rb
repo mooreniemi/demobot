@@ -28,5 +28,11 @@ describe CheckCitizenship do
       expect(citizenship).to receive(:nickserv?).and_return(false)
       expect(citizenship.capture_nickserv(m)).to eq(nil)
     end
+
+    it "calculates registered week from nickserv responses" do
+      expect(citizenship).to receive(:nickserv?).and_return(true)
+      expect_any_instance_of(Cinch::Helpers).to receive_message_chain(:Channel, :send)
+      citizenship.capture_nickserv(m)
+    end
   end
 end
