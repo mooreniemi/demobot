@@ -21,6 +21,7 @@ gem 'rake'
 gem 'rake-progressbar'
 
 # testing
+gem 'faker'
 gem 'pry'
 gem "factory_girl", "~> 4.0"
 gem 'rspec'
